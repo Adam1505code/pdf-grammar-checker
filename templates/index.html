@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Grammar Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            overflow-x: auto;
+        }
+        .issue {
+            background: #ffe6e6;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid red;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload a PDF to Check Grammar</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="pdf" accept=".pdf" required>
+        <br>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if text %}
+        <h3>Extracted Text:</h3>
+        <pre>{{ text }}</pre>
+
+        <h3>Grammar Issues Found:</h3>
+        {% for issue in issues %}
+            <div class="issue">
+                <strong>{{ issue.message }}</strong><br>
+                <em>Context:</em> {{ issue.context }}<br>
+                <em>Suggestions:</em> {{ issue.suggestions | join(', ') }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
